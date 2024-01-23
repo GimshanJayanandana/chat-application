@@ -36,18 +36,6 @@ public class registerFormController {
         txtNewPassword.setText("");
         txtUserName.setText("");
     }
-
-    @FXML
-    void btnBackOnAction(MouseEvent event) throws IOException {
-        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/loginForm.fxml"));
-        Scene scene = new Scene(anchorPane);
-        Stage stage = (Stage) this.registerPane.getScene().getWindow();
-        stage.setScene(scene);
-        stage.setTitle("Login");
-        stage.setResizable(false);
-        stage.centerOnScreen();
-    }
-
     @FXML
     void btnRegisterOnAction(ActionEvent event) throws SQLException {
         String userName = txtUserName.getText();
@@ -74,6 +62,17 @@ public class registerFormController {
     @FXML
     void txtUserNameGoToPasswordOnAction(ActionEvent event) {
         txtPassword.requestFocus();
+    }
+    @FXML
+    void btnLoginOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/loginForm.fxml"));
+        Scene scene = new Scene(anchorPane);
+        Stage stage = (Stage) this.registerPane.getScene().getWindow();
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.setResizable(false);
+        stage.centerOnScreen();
+
     }
     @FXML
     void txtConfirmPasswordGoToRegisterOnAction(ActionEvent event) throws SQLException {

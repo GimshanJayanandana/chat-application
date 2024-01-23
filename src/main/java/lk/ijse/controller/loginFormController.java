@@ -74,7 +74,16 @@ public class loginFormController {
         stage.setResizable(false);
         stage.setTitle("Register");
     }
-
+    @FXML
+    void forgotPasswordOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/ForgotPassword.fxml"));
+        Scene scene = new Scene(anchorPane);
+        Stage stage = (Stage) this.rootNode.getScene().getWindow();
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.setResizable(false);
+        stage.setTitle("Forgot Password");
+    }
     @FXML
     void txtPasswordGoToLoginOnAction(ActionEvent event) {
         loginOnAction(new ActionEvent());
