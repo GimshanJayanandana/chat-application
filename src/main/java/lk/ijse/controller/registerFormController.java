@@ -21,6 +21,9 @@ public class registerFormController {
     private TextField txtNewPassword;
 
     @FXML
+    private TextField txtPhoneNumber;
+
+    @FXML
     private TextField txtPassword;
 
     @FXML
@@ -33,6 +36,7 @@ public class registerFormController {
 
     private void clearFields(){
         txtPassword.setText("");
+        txtPhoneNumber.setText("");
         txtNewPassword.setText("");
         txtUserName.setText("");
     }
@@ -40,29 +44,25 @@ public class registerFormController {
     void btnRegisterOnAction(ActionEvent event) throws SQLException {
         String userName = txtUserName.getText();
         String password = txtPassword.getText();
-        String confirmPassword = txtNewPassword.getText();
+        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+      //  String confirmPassword = txtNewPassword.getText();
 
-        var dto = new RegistrationDto(userName,password);
-        boolean checkDuplicates = registrationModel.check(userName, password);
+        var dto = new RegistrationDto(userName,password,phoneNumber);
+
+        boolean checkDuplicates = registrationModel.check(phoneNumber);
         if (checkDuplicates) {
-            new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "This Phone Number Is Already Registered").showAndWait();
             return;
         }
-        boolean isRegistered = registrationModel.registerUser(dto);
-        if (isRegistered) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has Been Created").show();
+        boolean isRegistered = registrationModel.save(dto);
+        if (isRegistered){
             clearFields();
+            txtUserName.requestFocus();
+            new Alert(Alert.AlertType.INFORMATION,"Account Has Been Created").show();
         }
     }
 
-    @FXML
-    void txtPasswordGoToNewPasswordOnAction(ActionEvent event) {
-        txtNewPassword.requestFocus();
-    }
-    @FXML
-    void txtUserNameGoToPasswordOnAction(ActionEvent event) {
-        txtPassword.requestFocus();
-    }
+
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/loginForm.fxml"));
@@ -78,5 +78,18 @@ public class registerFormController {
     void txtConfirmPasswordGoToRegisterOnAction(ActionEvent event) throws SQLException {
         btnRegisterOnAction(new ActionEvent());
     }
+    @FXML
+    void txtPhoneNumberGoToPasswordOnAction(ActionEvent event) {
+        txtPassword.requestFocus();
+    }
+    @FXML
+    void txtUserNameGoToPhoneNumberOnAction(ActionEvent event) {
+        txtPhoneNumber.requestFocus();
+    }
+    @FXML
+    void txtPasswordGoToNewPasswordOnAction(ActionEvent event) {
+        txtNewPassword.requestFocus();
+    }
+
 
 }
