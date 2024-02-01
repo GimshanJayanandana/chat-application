@@ -82,16 +82,22 @@ public class ChatWallFormController {
     private JFXButton createEmojiButton(String emoji) {
         JFXButton button = new JFXButton(emoji);
         button.getStyleClass().add("emoji-button");
-        button.setOnAction(this::btnEmojiOnAction);
+        button.setOnAction(this::emojiButtonOnAction);
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         GridPane.setFillWidth(button, true);
         GridPane.setFillHeight(button, true);
         button.setStyle("-fx-font-size: 15; -fx-text-fill: black; -fx-background-color: #F0F0F0; -fx-border-radius: 50");
         return button;
     }
+
+    private void emojiButtonOnAction(ActionEvent event) {
+        JFXButton button = (JFXButton) event.getSource();
+        txtSendMsg.appendText(button.getText());
+    }
+
     @FXML
     void lblBack(MouseEvent event) {
-
+        System.exit(0);
     }
 
     @FXML
