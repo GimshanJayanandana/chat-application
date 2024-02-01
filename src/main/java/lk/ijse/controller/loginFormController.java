@@ -10,8 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.model.RegistrationModel;
+import lk.ijse.server.Server;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.SQLException;
 
 public class loginFormController {
@@ -27,6 +29,13 @@ public class loginFormController {
 
 
     private RegistrationModel registrationModel = new RegistrationModel();
+
+    public void initialize() throws IOException {
+        Server server = Server.getServerSocket();
+        Thread thread = new Thread(server);
+        thread.start();
+
+    }
 
     @FXML
     void loginOnAction(ActionEvent event) {
@@ -47,7 +56,6 @@ public class loginFormController {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                rootNode.getScene().getWindow().hide();
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chatWall.fxml"));
                 Parent root = loader.load();

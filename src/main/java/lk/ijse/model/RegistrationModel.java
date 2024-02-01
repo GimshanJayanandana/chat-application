@@ -69,4 +69,35 @@ public class RegistrationModel {
             return false;
         }
     }
+
+    public boolean update(RegistrationDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE user SET user_name = ?,password = ? WHERE phone_number = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,dto.getUserName());
+        ptsm.setString(2,dto.getPassword());
+        ptsm.setString(3, String.valueOf(dto.getPhone_number()));
+
+        return ptsm.executeUpdate() > 0;
+    }
+
+    public RegistrationDto search(String phoneNumber) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM user WHERE phone_number = ?";
+        PreparedStatement pstm = connection.prepareStatement(sql);
+        pstm.setString(1,phoneNumber);
+        ResultSet resultSet = pstm.executeQuery();
+
+        RegistrationDto dto = null;
+        if (resultSet.next()) {
+            String name = resultSet.getString(1);
+            String pw = resultSet.getString(2);
+            int phone_number = resultSet.getInt(3);
+
+            dto = new RegistrationDto(name,pw,phone_number);
+        }
+        return dto;
+    }
 }
